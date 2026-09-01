@@ -4,5 +4,5 @@ import FamilyPaletteView from "@/view/Families/FamilyPaletteView.vue";
 
 <template>
   <FamilyPaletteView />
-  <Toast />
+  <Toast position="top-right" />
 </template>

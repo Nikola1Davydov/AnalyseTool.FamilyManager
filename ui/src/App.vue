@@ -4,5 +4,5 @@ import FamiliesView from "@/view/FamiliesView.vue";
 
 <template>
   <FamiliesView />
-  <Toast />
+  <Toast position="top-right" />
 </template>
