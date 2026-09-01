@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { getCachedPreview, setCachedPreview } from "@/utils/familyCache";
 
 // Anything previewable by GetFamilyPreview: a family OR a type (both resolve to an ElementType on the
@@ -37,7 +37,7 @@ async function loadPreview() {
   }
 
   try {
-    const res = await invoke<{ id: number; dataUri: string | null }>("GetFamilyPreview", {
+    const res = await invoke<{ id: number; dataUri: string | null }>(own("GetFamilyPreview"), {
       id: props.family.id,
     });
     if (res?.dataUri) {

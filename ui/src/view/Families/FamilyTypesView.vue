@@ -14,7 +14,7 @@ import Tooltip from "primevue/tooltip";
 const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, computed, watch } from "vue";
 import { useToast } from "primevue/usetoast";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { useFamilyActions } from "./familyActions";
 import { useFamilyRules } from "./familyRules";
 import RulesBar from "./RulesBar.vue";
@@ -61,7 +61,7 @@ async function load() {
     worksets.value = ws?.worksets ?? [];
 
     const familyIds = props.families.map((f) => f.id);
-    const res = await invoke<TypeRowsResult>("GetFamilyTypeRows", { familyIds });
+    const res = await invoke<TypeRowsResult>(own("GetFamilyTypeRows"), { familyIds });
     rows.value = res?.rows ?? [];
   } catch (e) {
     console.error("Type rows load failed", e);
@@ -337,7 +337,7 @@ function applyRule() {
 
 async function renameTypeQuiet(id: number, newName: string): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await invoke<{ ok: boolean; error?: string }>("RenameFamilyType", { id, newName });
+    const res = await invoke<{ ok: boolean; error?: string }>(own("RenameFamilyType"), { id, newName });
     return { ok: !!res?.ok, error: res?.error };
   } catch (e) {
     return { ok: false, error: String((e as Error)?.message ?? e) };

@@ -12,7 +12,7 @@ import Tooltip from "primevue/tooltip";
 const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, computed, watch } from "vue";
 import { useToast } from "primevue/usetoast";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { useLibraryPaths } from "./libraryPaths";
 import LibraryThumb from "./LibraryThumb.vue";
 
@@ -62,7 +62,7 @@ async function reload() {
   }
   loading.value = true;
   try {
-    const res = await invoke<{ families: LibFamily[] }>("GetLibraryFamilies", { folders: [...paths] });
+    const res = await invoke<{ families: LibFamily[] }>(own("GetLibraryFamilies"), { folders: [...paths] });
     families.value = res?.families ?? [];
   } catch (e) {
     console.error("Library scan failed", e);
@@ -111,8 +111,7 @@ async function loadPaths(paths: string[]) {
   loadProgress.value = 0;
   let anyLoaded = false;
   try {
-    const res = await invoke<{ ok: boolean; loaded: number; failed: number; error?: string }>(
-      "LoadLibraryFamilies",
+    const res = await invoke<{ ok: boolean; loaded: number; failed: number; error?: string }>(own("LoadLibraryFamilies"),
       { paths },
       { onProgress: (p) => (loadProgress.value = Math.round((p.fraction ?? 0) * 100)) },
     );

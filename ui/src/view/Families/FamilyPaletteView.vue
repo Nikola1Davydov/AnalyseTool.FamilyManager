@@ -12,7 +12,7 @@ import SelectButton from "primevue/selectbutton";
 import Tooltip from "primevue/tooltip";
 const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { useFamilyActions } from "./familyActions";
 import { useFamilyRules } from "./familyRules";
 import { usePaletteSettings } from "./paletteSettings";
@@ -66,13 +66,13 @@ const activeRuleId = ref<string | null>(null);
 async function load() {
   loading.value = true;
   try {
-    const inv = await invoke<FamilyInventory>("GetFamilies");
+    const inv = await invoke<FamilyInventory>(own("GetFamilies"));
     const famRows: FamilyRow[] = inv?.families ?? [];
     if (!famRows.length) {
       families.value = [];
       return;
     }
-    const res = await invoke<TypeRowsResult>("GetFamilyTypeRows", {
+    const res = await invoke<TypeRowsResult>(own("GetFamilyTypeRows"), {
       familyIds: famRows.map((f) => f.id),
     });
     const byFamily = new Map<number, PalType[]>();

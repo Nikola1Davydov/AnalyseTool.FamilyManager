@@ -3,7 +3,7 @@
 // feed them to the existing SelectionInRevit / IsolationInRevit commands. Write actions (rename / delete /
 // purge / workset) hit the dedicated write commands and report ok/error.
 
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { useToast } from "primevue/usetoast";
 import type { FamilyInstancesResult } from "./types";
 
@@ -25,7 +25,7 @@ export function useFamilyActions() {
   }
 
   async function resolveIds(target: InstanceTarget): Promise<number[]> {
-    const res = await invoke<FamilyInstancesResult>("GetFamilyInstances", target);
+    const res = await invoke<FamilyInstancesResult>(own("GetFamilyInstances"), target);
     return (res?.instances ?? []).map((i) => i.id);
   }
 
@@ -53,7 +53,7 @@ export function useFamilyActions() {
 
   async function renameFamily(id: number, newName: string): Promise<boolean> {
     try {
-      const res = await invoke<{ ok: boolean; name?: string; error?: string }>("RenameFamily", {
+      const res = await invoke<{ ok: boolean; name?: string; error?: string }>(own("RenameFamily"), {
         id,
         newName,
       });
@@ -70,7 +70,7 @@ export function useFamilyActions() {
 
   async function renameTypeOne(id: number, newName: string): Promise<{ ok: boolean; error?: string }> {
     try {
-      const res = await invoke<{ ok: boolean; error?: string }>("RenameFamilyType", { id, newName });
+      const res = await invoke<{ ok: boolean; error?: string }>(own("RenameFamilyType"), { id, newName });
       return { ok: !!res?.ok, error: res?.error };
     } catch (e) {
       return { ok: false, error: String((e as Error)?.message ?? e) };
@@ -92,8 +92,7 @@ export function useFamilyActions() {
   /** Deletes families and/or types (the Purge path passes the precomputed unused ids). */
   async function deleteElements(familyIds: number[], typeIds: number[] = []): Promise<boolean> {
     try {
-      const res = await invoke<{ ok: boolean; deleted: number; error?: string }>(
-        "DeleteFamilyElements",
+      const res = await invoke<{ ok: boolean; deleted: number; error?: string }>(own("DeleteFamilyElements"),
         { familyIds, typeIds },
       );
       if (res?.ok) {
@@ -116,8 +115,7 @@ export function useFamilyActions() {
     onProgress?: (fraction: number) => void,
   ): Promise<{ ok: boolean; deleted: number; failed: number; error?: string }> {
     try {
-      const res = await invoke<{ ok: boolean; deleted: number; failed: number; error?: string }>(
-        "PurgeFamilies",
+      const res = await invoke<{ ok: boolean; deleted: number; failed: number; error?: string }>(own("PurgeFamilies"),
         { familyIds },
         { onProgress: (p) => onProgress?.(p.fraction ?? 0) },
       );
@@ -130,8 +128,7 @@ export function useFamilyActions() {
   /** Moves instances to a workset, targeted by explicit element ids and/or by type ids. */
   async function setWorkset(target: InstanceTarget, worksetId: number): Promise<boolean> {
     try {
-      const res = await invoke<{ ok: boolean; updated: number; error?: string }>(
-        "SetInstancesWorkset",
+      const res = await invoke<{ ok: boolean; updated: number; error?: string }>(own("SetInstancesWorkset"),
         { ...target, worksetId },
       );
       if (res?.ok) {
@@ -155,8 +152,7 @@ export function useFamilyActions() {
     onProgress?: (fraction: number) => void,
   ): Promise<{ ok: boolean; deleted: number; failed: number; error?: string }> {
     try {
-      const res = await invoke<{ ok: boolean; deleted: number; failed: number; error?: string }>(
-        "PurgeFamilyTypes",
+      const res = await invoke<{ ok: boolean; deleted: number; failed: number; error?: string }>(own("PurgeFamilyTypes"),
         { typeIds },
         { onProgress: (p) => onProgress?.(p.fraction ?? 0) },
       );
@@ -169,7 +165,7 @@ export function useFamilyActions() {
   /** Starts Revit's interactive placement for a loadable family type (backs the palette "Place"). */
   async function place(typeId: number): Promise<boolean> {
     try {
-      const res = await invoke<{ ok: boolean; error?: string }>("PlaceFamilyInstance", { typeId });
+      const res = await invoke<{ ok: boolean; error?: string }>(own("PlaceFamilyInstance"), { typeId });
       if (res?.ok) {
         ok("Placement started", "Click in the model to place; press Esc to finish.");
         return true;

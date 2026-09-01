@@ -15,7 +15,7 @@ import Tooltip from "primevue/tooltip";
 const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, computed, watch, onMounted } from "vue";
 import { useToast } from "primevue/usetoast";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import FamilyCard from "@/view/Families/FamilyCard.vue";
 import FamilyThumb from "@/view/Families/FamilyThumb.vue";
 import FamilyDetailDialog from "@/view/Families/FamilyDetailDialog.vue";
@@ -56,7 +56,7 @@ async function load() {
   loading.value = true;
   error.value = null;
   try {
-    const res = await invoke<FamilyInventory>("GetFamilies");
+    const res = await invoke<FamilyInventory>(own("GetFamilies"));
     families.value = res?.families ?? [];
     selected.value = []; // stale row objects — a reload invalidates the selection
   } catch (e) {
@@ -116,7 +116,7 @@ const allFamilyNames = computed(() => families.value.map((f) => ({ name: f.name 
 // Quiet single rename for the bulk dialog (it reports one summary instead of a toast per row).
 async function renameOneQuiet(id: number, newName: string): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await invoke<{ ok: boolean; error?: string }>("RenameFamily", { id, newName });
+    const res = await invoke<{ ok: boolean; error?: string }>(own("RenameFamily"), { id, newName });
     return { ok: !!res?.ok, error: res?.error };
   } catch (e) {
     return { ok: false, error: String((e as Error)?.message ?? e) };
@@ -151,7 +151,7 @@ watch(bulkRenameVisible, async (open) => {
   paramsLoading.value = true;
   try {
     const familyIds = selected.value.map((f) => f.id);
-    const typeRes = await invoke<TypeRowsResult>("GetFamilyTypeRows", { familyIds });
+    const typeRes = await invoke<TypeRowsResult>(own("GetFamilyTypeRows"), { familyIds });
     const typeRows = typeRes?.rows ?? [];
     const paramRes = await invoke<{ types: { typeId: number; parameters: { name: string; value: string }[] }[] }>(
       "GetTypeParameters",

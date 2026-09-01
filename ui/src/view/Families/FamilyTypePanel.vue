@@ -4,7 +4,7 @@
 import InputText from "primevue/inputtext";
 import Tag from "primevue/tag";
 import { ref, computed, watch, onMounted } from "vue";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 
 interface TypeParam {
   name: string;
@@ -33,7 +33,7 @@ const paramSearch = ref("");
 async function load() {
   loading.value = true;
   try {
-    data.value = await invoke<FamilyTypes>("GetFamilyTypes", { id: props.familyId });
+    data.value = await invoke<FamilyTypes>(own("GetFamilyTypes"), { id: props.familyId });
     selectedId.value = data.value?.types?.[0]?.id ?? null;
   } catch (e) {
     console.error("Failed to load family types", e);

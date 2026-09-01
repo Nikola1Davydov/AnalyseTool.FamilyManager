@@ -5,7 +5,7 @@ import Button from "primevue/button";
 import Tooltip from "primevue/tooltip";
 const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { getCachedMesh, setCachedMesh, type FamilyMeshData } from "@/utils/familyCache";
 
 const props = defineProps<{ familyId: number; uniqueId: string; versionGuid: string }>();
@@ -32,7 +32,7 @@ async function fetchMesh(force: boolean): Promise<FamilyMeshData | null> {
     const cached = await getCachedMesh(props.uniqueId, props.versionGuid);
     if (cached) return cached;
   }
-  const res = await invoke<FamilyMeshData>("GetFamilyMesh", { id: props.familyId });
+  const res = await invoke<FamilyMeshData>(own("GetFamilyMesh"), { id: props.familyId });
   if (res && props.uniqueId) void setCachedMesh(props.uniqueId, props.versionGuid, res);
   return res;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { invoke } from "@/RevitBridge";
+import { invoke, own } from "@/RevitBridge";
 import { getCachedPreview, setCachedPreview } from "@/utils/familyCache";
 
 // Lazy preview tile for an on-disk family file: renders the .rfa's embedded thumbnail (GetLibraryPreview),
@@ -24,7 +24,7 @@ async function loadPreview() {
   }
 
   try {
-    const res = await invoke<{ path: string; dataUri: string | null }>("GetLibraryPreview", {
+    const res = await invoke<{ path: string; dataUri: string | null }>(own("GetLibraryPreview"), {
       path: props.path,
     });
     if (res?.dataUri) {

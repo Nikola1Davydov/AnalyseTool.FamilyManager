@@ -6,6 +6,15 @@ export type WebViewMessage = {
   Error?: string | null;
 };
 
+/**
+ * This extension's own id, and the prefix every command it ships is registered under. The host
+ * namespaces extension commands, so a page must ask for "<id>.GetFamilies", never the bare name —
+ * that one belonged to the built-in version and no longer exists. Kept in ONE place so renaming the
+ * extension is a one-line change instead of a hunt.
+ */
+export const EXTENSION_ID = "analysetool.family-manager";
+export const own = (command: string) => `${EXTENSION_ID}.${command}`;
+
 export const Commands = {
   SelectionInRevit: "SelectionInRevit",
   IsolationInRevit: "IsolationInRevit",
@@ -24,12 +33,12 @@ export const Commands = {
   AiSaveProvider: "AiSaveProvider",
   AiDeleteProvider: "AiDeleteProvider",
   AiGetModels: "AiGetModels",
-  PlaceFamilyInstance: "PlaceFamilyInstance",
-  PurgeFamilyTypes: "PurgeFamilyTypes",
-  PurgeFamilies: "PurgeFamilies",
-  GetLibraryFamilies: "GetLibraryFamilies",
-  GetLibraryPreview: "GetLibraryPreview",
-  LoadLibraryFamilies: "LoadLibraryFamilies",
+  PlaceFamilyInstance: `${EXTENSION_ID}.PlaceFamilyInstance`,
+  PurgeFamilyTypes: `${EXTENSION_ID}.PurgeFamilyTypes`,
+  PurgeFamilies: `${EXTENSION_ID}.PurgeFamilies`,
+  GetLibraryFamilies: `${EXTENSION_ID}.GetLibraryFamilies`,
+  GetLibraryPreview: `${EXTENSION_ID}.GetLibraryPreview`,
+  LoadLibraryFamilies: `${EXTENSION_ID}.LoadLibraryFamilies`,
   PickFolder: "PickFolder",
 } as const;
 
