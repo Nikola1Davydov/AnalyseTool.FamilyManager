@@ -1,4 +1,11 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import Checkbox from "primevue/checkbox";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
+import Select from "primevue/select";
 import { ref, watch, computed } from "vue";
 import { FIELDS, OPERATORS } from "./familyRules";
 import type { FilterRule, RuleCondition, RuleScope } from "./types";

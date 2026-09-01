@@ -1,4 +1,8 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import InputText from "primevue/inputtext";
+import Tag from "primevue/tag";
 import { ref, computed, watch, onMounted } from "vue";
 import { invoke } from "@/RevitBridge";
 

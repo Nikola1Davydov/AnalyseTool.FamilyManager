@@ -1,4 +1,10 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import Tag from "primevue/tag";
+import Tooltip from "primevue/tooltip";
+const vTooltip = Tooltip; // локальная директива v-tooltip: без глобальной регистрации
 import FamilyThumb from "./FamilyThumb.vue";
 import type { FamilyRow } from "./types";
 

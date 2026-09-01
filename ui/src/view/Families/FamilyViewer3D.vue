@@ -1,4 +1,9 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import Tooltip from "primevue/tooltip";
+const vTooltip = Tooltip; // локальная директива v-tooltip: без глобальной регистрации
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { invoke } from "@/RevitBridge";
 import { getCachedMesh, setCachedMesh, type FamilyMeshData } from "@/utils/familyCache";

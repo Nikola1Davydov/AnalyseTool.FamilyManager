@@ -1,4 +1,10 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import Checkbox from "primevue/checkbox";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
 import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useToast } from "primevue/usetoast";

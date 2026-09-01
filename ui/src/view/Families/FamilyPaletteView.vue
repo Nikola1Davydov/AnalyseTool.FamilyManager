@@ -1,4 +1,16 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import ContextMenu from "primevue/contextmenu";
+import Dialog from "primevue/dialog";
+import IconField from "primevue/iconfield";
+import InputIcon from "primevue/inputicon";
+import InputText from "primevue/inputtext";
+import Select from "primevue/select";
+import SelectButton from "primevue/selectbutton";
+import Tooltip from "primevue/tooltip";
+const vTooltip = Tooltip; // локальная директива v-tooltip: без глобальной регистрации
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { invoke } from "@/RevitBridge";
 import { useFamilyActions } from "./familyActions";

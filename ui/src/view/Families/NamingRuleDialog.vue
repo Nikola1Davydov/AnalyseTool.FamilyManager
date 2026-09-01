@@ -1,4 +1,13 @@
 <script setup lang="ts">
+// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
+// регистрации хоста — его фронтенд знает только window.AT.
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
+import Select from "primevue/select";
+import Tag from "primevue/tag";
+import Tooltip from "primevue/tooltip";
+const vTooltip = Tooltip; // локальная директива v-tooltip: без глобальной регистрации
 import { ref, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useToast } from "primevue/usetoast";
