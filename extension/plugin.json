@@ -5,7 +5,7 @@
   "description": "Family Manager: family palette, library, batch renaming, purging and placement.",
   "publisher": "AnalyseTool",
   "website": "https://github.com/Nikola1Davydov/AnalyseTool.FamilyManager",
-  "updateFeed": "https://api.github.com/repos/Nikola1Davydov/AnalyseTool.FamilyManager/releases/latest",
+  "updateFeed": "github:Nikola1Davydov/AnalyseTool.FamilyManager",
   "entryAssembly": "AnalyseTool.FamilyManager.dll",
   "ui": {
     "tab": "AnalyseTool",
