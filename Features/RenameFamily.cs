@@ -1,0 +1,36 @@
+using AnalyseTool.Sdk;
+
+using AnalyseTool.FamilyManager.Shared;
+using System.ComponentModel;
+
+namespace AnalyseTool.FamilyManager
+{
+    /// <summary>Renames a family in the active document. Returns ok=false on a duplicate/invalid name.</summary>
+    [RevitCommand(
+        Description = "MODIFIES the model: renames a family (by id from GetFamilies) in the active " +
+                      "document. Returns ok=false with an error message on a duplicate or invalid name. " +
+                      "Cost: one transaction — cheap.",
+        Destructive = true,
+        InputType = typeof(RenameFamily.Request),
+        OutputType = typeof(RenameResult))]
+    internal sealed class RenameFamily : IRevitTask
+    {
+        public Task<object?> ExecuteAsync(IRevitContext ctx, CancellationToken ct)
+        {
+            Request req = ctx.Payload.As<Request>() ?? new Request();
+
+            return ctx.RunInRevitAsync<object?>(app =>
+                new FamilyActionsService().RenameFamily(
+                    app.ActiveUIDocument.Document, req.Id, req.NewName ?? string.Empty));
+        }
+
+        public sealed class Request
+        {
+            [Description("Family id to rename.")]
+            public long Id { get; set; }
+
+            [Description("The new family name.")]
+            public string? NewName { get; set; }
+        }
+    }
+}

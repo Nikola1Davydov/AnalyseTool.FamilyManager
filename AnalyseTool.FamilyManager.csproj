@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Внешнее расширение AnalyseTool: компилируется против ПАКЕТА SDK, ровно как расширение
+    стороннего автора. Никаких ProjectReference на репозиторий платформы — если чего-то не
+    хватает, это дыра в SDK, и её надо закрывать в SDK, а не обходить ссылкой.
+  -->
+
+  <PropertyGroup>
+    <!-- Год Revit определяет TFM, пакеты API и папку вывода. Другой год — параметром:
+         dotnet build -c Release -p:RevitVersion=2026 -->
+    <RevitVersion Condition="'$(RevitVersion)' == ''">2025</RevitVersion>
+    <TargetFramework Condition="'$(RevitVersion)' &lt; '2027'">net8.0-windows</TargetFramework>
+    <TargetFramework Condition="'$(RevitVersion)' &gt;= '2027'">net10.0-windows</TargetFramework>
+
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>true</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <RootNamespace>AnalyseTool.FamilyManager</RootNamespace>
+    <AssemblyName>AnalyseTool.FamilyManager</AssemblyName>
+
+    <!-- Сборка кладётся в <расширение>\<год>\ — та же раскладка, что у пакета, поэтому папка,
+         в которой разрабатываешь, и есть папка, которую отгружаешь. Годы сосуществуют. -->
+    <OutDir>$(MSBuildProjectDirectory)\$(RevitVersion)\</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Точная версия, никогда не диапазон: закреплённый пакет — причина, по которой чужой
+         релиз не может сломать вашу сборку. -->
+    <PackageReference Include="AnalyseTool.Sdk" Version="1.2.0">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <!-- Хост владеет Newtonsoft.Json в рантайме (ALC делит его копию), но компилироваться
+         против него расширение обязано само. В §4 гайда и в Acme.Sample этого нет, потому что
+         сериализацией они не пользуются — первая дыра, найденная переносом. Версия совпадает
+         с той, что закреплена в платформе. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <!-- То же самое с Serilog: им пользуется общий обработчик отказов транзакций
+         (CollectingFailuresPreprocessor из #88), без которого пишущее расширение поднимает
+         модальные окна и морозит поток Revit. Вторая дыра переноса. -->
+    <PackageReference Include="Serilog" Version="4.2.0">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <!-- Element.GetPreviewImage возвращает System.Drawing.Bitmap. Только для компиляции —
+         рантайм даёт сам Revit, поэтому DLL рядом с плагином и не лежит. Версия привязана к
+         году: RevitAPI 2027 (net10) собран против 10.x, и ссылка на 8.0 там не подойдёт.
+         Третья дыра переноса: в §4 гайда этого нет. -->
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" Condition="'$(TargetFramework)' != 'net10.0-windows'">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0" Condition="'$(TargetFramework)' == 'net10.0-windows'">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- plugin.json НЕ копируется в <год>\: манифест живёт в корне папки расширения, а в
+       <год>\ лежит только сборка. Копия в папке года сбивала бы с толку загрузчик и людей. -->
+
+  <!-- Исходники UI не компилируются MSBuild: их собирает Vite в dist\. -->
+  <ItemGroup>
+    <Compile Remove="ui\**" />
+    <None Remove="ui\**" />
+  </ItemGroup>
+
+</Project>

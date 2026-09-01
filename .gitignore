@@ -427,3 +427,12 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Вывод сборки по годам Revit
+2025/
+2026/
+2027/
+
+# Vite
+ui/node_modules/
+dist/
