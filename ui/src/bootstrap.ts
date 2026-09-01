@@ -1,13 +1,13 @@
-// Точка входа фронтенда расширения.
+// Frontend entry point of the extension.
 //
-// НИЧЕГО не берётся у хоста, кроме window.AT. Расширение — отдельное приложение в отдельном
-// WebView: свои зависимости, своя тема, свой набор компонентов. Компоненты PrimeVue объявлены
-// ЯВНО в тех вьюхах, где используются, а не зарегистрированы глобально — вьюха, которую можно
-// прочитать и понять целиком, не ломается от того, что кто-то поменял общий список.
+// NOTHING is taken from the host except window.AT. An extension is a separate application in a
+// separate WebView: its own dependencies, its own theme, its own set of components. PrimeVue
+// components are declared EXPLICITLY in the views that use them rather than registered globally —
+// a view you can read and understand on its own does not break because someone edited a shared list.
 //
-// Ровно на этом обожглись при первом запуске: настройка была скопирована из главного
-// приложения, и половина интерфейса не нарисовалась, потому что компоненты приходили оттуда.
-// Незарегистрированный компонент не падает — он молча ничего не рисует.
+// This is exactly what went wrong on the first run: the setup was copied from the main application,
+// and half the interface did not render because the components came from there. An unregistered
+// component does not throw; it silently renders nothing.
 import "./style.css";
 
 import { createApp } from "vue";
@@ -18,8 +18,8 @@ import Aura from "@primeuix/themes/aura";
 import { definePreset } from "@primeuix/themes";
 import ToastService from "primevue/toastservice";
 
-// Тема — СОБСТВЕННЫЙ выбор расширения. Синий акцент выбран потому, что он уместен рядом с
-// продуктом, а не потому, что где-то прочитан: связи с настройками хоста здесь нет.
+// The theme is this extension's OWN choice. Blue was picked because it sits well next to the
+// product, not because it was read from anywhere: there is no link to the host's settings here.
 const theme = definePreset(Aura, {
   semantic: {
     primary: {
@@ -36,8 +36,8 @@ export function mount(root: Component) {
     .use(PrimeVue, {
       theme: {
         preset: theme,
-        // Своя страница — свой документ. Класс тёмной темы ставит эта страница и никто больше,
-        // поэтому и селектор здесь собственный, а не тот, что у хоста.
+        // Own page, own document. The dark-mode class is set by this page and nobody else, so the
+        // selector is ours rather than the host's.
         options: { darkModeSelector: ".family-manager-dark" },
       },
     })

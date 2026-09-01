@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
-// регистрации хоста — его фронтенд знает только window.AT.
+// PrimeVue components are declared EXPLICITLY: this extension relies on no global
+// registrations from the host. Its frontend knows only window.AT.
 import InputText from "primevue/inputtext";
 import Tag from "primevue/tag";
 import { ref, computed, watch, onMounted } from "vue";

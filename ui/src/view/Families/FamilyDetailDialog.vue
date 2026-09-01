@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
-// регистрации хоста — его фронтенд знает только window.AT.
+// PrimeVue components are declared EXPLICITLY: this extension relies on no global
+// registrations from the host. Its frontend knows only window.AT.
 import Dialog from "primevue/dialog";
 import FamilyViewer3D from "@/view/Families/FamilyViewer3D.vue";
 import FamilyTypePanel from "@/view/Families/FamilyTypePanel.vue";

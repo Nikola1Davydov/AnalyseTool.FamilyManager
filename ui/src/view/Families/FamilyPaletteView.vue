@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// Компоненты PrimeVue объявлены ЯВНО: расширение не полагается на глобальные
-// регистрации хоста — его фронтенд знает только window.AT.
+// PrimeVue components are declared EXPLICITLY: this extension relies on no global
+// registrations from the host. Its frontend knows only window.AT.
 import Button from "primevue/button";
 import ContextMenu from "primevue/contextmenu";
 import Dialog from "primevue/dialog";
@@ -10,7 +10,7 @@ import InputText from "primevue/inputtext";
 import Select from "primevue/select";
 import SelectButton from "primevue/selectbutton";
 import Tooltip from "primevue/tooltip";
-const vTooltip = Tooltip; // локальная директива v-tooltip: без глобальной регистрации
+const vTooltip = Tooltip; // local v-tooltip directive — no global registration
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { invoke } from "@/RevitBridge";
 import { useFamilyActions } from "./familyActions";

@@ -7,18 +7,18 @@ import { resolve } from "node:path";
 const here = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
-  // ОБЯЗАТЕЛЬНО: страница грузится с виртуального хоста, поэтому пути к ассетам
-  // должны быть относительными (ONBOARDING §5.3).
+  // REQUIRED: the page loads from a virtual host, so asset paths must be relative
+  // (ONBOARDING §5.3).
   base: "./",
   plugins: [vue(), tailwindcss()],
   resolve: { alias: { "@": resolve(here, "./src") } },
   build: {
-    // dist кладётся в ПАПКУ РАСШИРЕНИЯ, рядом с plugin.json. Исходники UI живут
-    // СНАРУЖИ неё: PackExtension сметает в бандл всё, что не исходники C#, и утащил бы
-    // node_modules вместе с ними.
+    // dist goes into the EXTENSION folder, beside plugin.json. The UI sources live OUTSIDE it:
+    // PackExtension sweeps everything that is not C# source into the bundle, and would have
+    // taken node_modules along with them.
     outDir: resolve(here, "../extension/dist"),
     emptyOutDir: true,
-    // Две точки входа — две кнопки расширения: окно менеджера и док-палитра.
+    // Two entry points, two ribbon buttons: the manager window and the dockable palette.
     rollupOptions: {
       input: {
         index: resolve(here, "index.html"),

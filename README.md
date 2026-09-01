@@ -1,76 +1,80 @@
 # AnalyseTool Family Manager
 
-Менеджер семейств для [AnalyseTool](https://github.com/Nikola1Davydov/AnalyzeTool): палитра
-семейств, библиотека, пакетное переименование, очистка неиспользуемого, размещение и 3D-просмотр.
+Family manager for [AnalyseTool](https://github.com/Nikola1Davydov/AnalyzeTool): family palette,
+library, batch renaming, purging of unused families and types, placement and a 3D preview.
 
-Это **расширение**, а не часть плагина: ставится отдельно и обновляется отдельно.
+This is an **extension**, not part of the plugin: it installs and updates on its own.
 
-## Установка
+## Install
 
-Нужен установленный AnalyseTool.
+Requires AnalyseTool.
 
-1. Скачайте `AnalyseTool.FamilyManager.zip` из
-   [последнего релиза](https://github.com/Nikola1Davydov/AnalyseTool.FamilyManager/releases/latest).
-2. В Revit: **AnalyseTool → Settings → Extensions → Install from file…** и укажите скачанный zip.
-3. Подтвердите установку и нажмите **Reload**.
+1. Download `analysetool.family-manager-<version>.zip` from the
+   [latest release](https://github.com/Nikola1Davydov/AnalyseTool.FamilyManager/releases/latest).
+2. In Revit: **AnalyseTool → Settings → Extensions → Install from file…** and pick the zip.
+3. Confirm the install and press **Reload**.
 
-Кнопка **Family Manager** появится на вкладке AnalyseTool, панель Families.
+Two buttons appear on the AnalyseTool tab, Families panel: **Family Manager** opens a window,
+**Component** opens the placement palette in the dockable pane.
 
-Обновления приходят через `updateFeed` в манифесте: Settings показывает значок, когда вышел
-новый релиз.
+One archive carries builds for **2025, 2026 and 2027** — the right year is picked at install time.
+Updates arrive through the `updateFeed` in the manifest; Settings shows a badge when a new release
+is out.
 
-### Установка вручную
+### Installing by hand
 
-Если предпочитаете без диалога — распакуйте zip в
-`%LOCALAPPDATA%\AnalyseTool\extensions\analysetool.family-manager\` и нажмите Reload. Раскладка
-внутри папки:
+To skip the dialog, unpack the zip into
+`%LOCALAPPDATA%\AnalyseTool\extensions\analysetool.family-manager\` and press Reload. The archive
+contains:
 
 ```
-analysetool.family-manager\
-├── plugin.json      ← манифест и UI в корне
-├── dist\            ← собранный интерфейс
-├── 2025\            ← сборка под свой год Revit
-├── 2026\
-└── 2027\
+plugin.json      manifest and UI live in the root
+dist\            built interface
+2025\            assemblies, one folder per Revit year
+2026\
+2027\
 ```
 
-## Что даёт агенту
+## What the agent gets
 
-Команды расширения автоматически попадают в MCP под именами вида
-`analysetool_family-manager_GetFamilies`. Отдельной настройки не требуется: расширение
-загружено — команды видны, выключено — их нет.
+The extension's commands appear over MCP as `analysetool_family-manager_GetFamilies` and friends.
+Nothing to configure: the extension is loaded, its commands are visible; it is disabled, they are
+gone.
 
-## Сборка из исходников
+## Building from source
 
-Интерфейс собирается первым — его результат уезжает в `extension/dist`:
+The interface is built first — its output goes to `extension/dist`:
 
 ```
 cd ui && npm install && npm run build
 ```
 
-Затем расширение. Один вызов собирает все три года и кладёт готовый архив в
+Then the extension. One call builds all three years and drops a ready archive in
 `extension/artifacts/`:
 
 ```
 cd extension && dotnet build -c Release -t:PackExtension
 ```
 
-Отдельный год — либо свойством, либо конфигурацией, csproj понимает оба способа:
+A single year, either by property or by configuration — the csproj understands both:
 
 ```
 dotnet build -c Release -p:RevitVersion=2026
 dotnet build -c "Release R26"
 ```
 
-### Раскладка репозитория
+### Repository layout
 
 ```
-ui\           исходники интерфейса (Vite). СНАРУЖИ папки расширения:
-              PackExtension сметает в архив всё, что не исходники C#,
-              и утащил бы node_modules вместе с ними.
-extension\    сама папка расширения — то, что упаковывается и ставится
+ui\           interface sources (Vite). OUTSIDE the extension folder:
+              PackExtension sweeps everything that is not C# source into the
+              archive, and would have taken node_modules with it.
+extension\    the extension folder itself — what gets packaged and installed
 ```
 
-## Лицензия
+The frontend depends on **nothing from the host except `window.AT`**: its own components, its own
+theme, its own stylesheet. See `ui/src/bootstrap.ts`.
 
-Apache-2.0, как и сама платформа. См. [LICENSE](LICENSE).
+## License
+
+Apache-2.0, same as the platform. See [LICENSE](LICENSE).
