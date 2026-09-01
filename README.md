@@ -42,16 +42,34 @@ analysetool.family-manager\
 
 ## Сборка из исходников
 
+Интерфейс собирается первым — его результат уезжает в `extension/dist`:
+
 ```
-dotnet build -c Release
+cd ui && npm install && npm run build
+```
+
+Затем расширение. Один вызов собирает все три года и кладёт готовый архив в
+`extension/artifacts/`:
+
+```
+cd extension && dotnet build -c Release -t:PackExtension
+```
+
+Отдельный год — либо свойством, либо конфигурацией, csproj понимает оба способа:
+
+```
 dotnet build -c Release -p:RevitVersion=2026
-dotnet build -c Release -p:RevitVersion=2027
+dotnet build -c "Release R26"
 ```
 
-Год Revit определяет TFM, пакеты API и папку вывода. Каждый год кладётся в свою папку, поэтому
-годы сосуществуют — по одной команде на каждый год, который отгружаете.
+### Раскладка репозитория
 
-Интерфейс собирается отдельно, из `ui/`.
+```
+ui\           исходники интерфейса (Vite). СНАРУЖИ папки расширения:
+              PackExtension сметает в архив всё, что не исходники C#,
+              и утащил бы node_modules вместе с ними.
+extension\    сама папка расширения — то, что упаковывается и ставится
+```
 
 ## Лицензия
 

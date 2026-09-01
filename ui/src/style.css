@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@plugin "tailwindcss-primeui";
+
+html, body, #app { height: 100%; margin: 0; }

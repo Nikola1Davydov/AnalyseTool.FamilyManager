@@ -429,10 +429,11 @@ FodyWeavers.xsd
 *.msp
 
 # Вывод сборки по годам Revit
-2025/
-2026/
-2027/
+extension/2025/
+extension/2026/
+extension/2027/
 
 # Vite
 ui/node_modules/
-dist/
+extension/dist/
+artifacts/
