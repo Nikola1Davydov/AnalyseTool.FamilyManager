@@ -15,14 +15,14 @@
         "name": "Family Manager",
         "tooltip": "Библиотека семейств, типы, переименование и очистка",
         "entryHtml": "dist/index.html",
-        "icon": "icon.png"
+        "icon": "glyph:E8A9"
       },
       {
-        "name": "Palette",
-        "tooltip": "Палитра размещения компонентов — в док-панели",
+        "name": "Component",
+        "tooltip": "Place a component — dockable family palette",
         "entryHtml": "dist/palette.html",
         "dockable": true,
-        "icon": "palette.png",
+        "icon": "glyph:E8A9",
         "order": 1
       }
     ]
