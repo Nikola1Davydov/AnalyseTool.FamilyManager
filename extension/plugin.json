@@ -1,4 +1,5 @@
 {
+  "schema": 2,
   "id": "analysetool.family-manager",
   "version": "0.1.0",
   "description": "Family Manager: палитра семейств, библиотека, пакетное переименование, очистка и размещение.",
@@ -7,14 +8,23 @@
   "updateFeed": "https://api.github.com/repos/Nikola1Davydov/AnalyseTool.FamilyManager/releases/latest",
   "entryAssembly": "AnalyseTool.FamilyManager.dll",
   "ui": {
-    "entryHtml": "dist/index.html",
     "tab": "AnalyseTool",
     "panel": "Families",
-    "dockable": true,
-    "button": {
-      "name": "Family Manager",
-      "tooltip": "Палитра семейств, библиотека, переименование и очистка",
-      "icon": "icon.png"
-    }
+    "buttons": [
+      {
+        "name": "Family Manager",
+        "tooltip": "Библиотека семейств, типы, переименование и очистка",
+        "entryHtml": "dist/index.html",
+        "icon": "icon.png"
+      },
+      {
+        "name": "Palette",
+        "tooltip": "Палитра размещения компонентов — в док-панели",
+        "entryHtml": "dist/palette.html",
+        "dockable": true,
+        "icon": "palette.png",
+        "order": 1
+      }
+    ]
   }
 }

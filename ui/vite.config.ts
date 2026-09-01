@@ -18,5 +18,12 @@ export default defineConfig({
     // node_modules вместе с ними.
     outDir: resolve(here, "../extension/dist"),
     emptyOutDir: true,
+    // Две точки входа — две кнопки расширения: окно менеджера и док-палитра.
+    rollupOptions: {
+      input: {
+        index: resolve(here, "index.html"),
+        palette: resolve(here, "palette.html"),
+      },
+    },
   },
 });
