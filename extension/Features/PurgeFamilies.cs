@@ -13,7 +13,7 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "MODIFIES the model: deletes the given families, skipping (and counting) any that " +
                       "can't be removed. Deleting a family also deletes its instances — check the instance " +
-                      "count from GetFamilies first, where the ids come from. Used by 'purge unused " +
+                      "count from analysetool.family-manager.GetFamilies first, where the ids come from. Used by 'purge unused " +
                       "families'. Returns { deleted, failed }. Cost: one transaction over the given " +
                       "families.",
         Destructive = true,

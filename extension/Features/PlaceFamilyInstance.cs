@@ -18,7 +18,7 @@ namespace AnalyseTool.FamilyManager
                       "Returns ok=false for a non-loadable/system type. INTERACTIVE: placement blocks on " +
                       "the user clicking in the model, so this command has no meaning to an unattended " +
                       "caller (a pipeline, a batch) and must never be dispatched by one. " +
-                      "Type ids come from GetFamilyTypes. MODIFIES the model once the user clicks.",
+                      "Type ids come from analysetool.family-manager.GetFamilyTypes. MODIFIES the model once the user clicks.",
         Destructive = true,
         InputType = typeof(PlaceFamilyInstance.Request),
         OutputType = typeof(PlaceInstanceResult))]

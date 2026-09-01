@@ -12,7 +12,7 @@ namespace AnalyseTool.FamilyManager
     /// </summary>
     [RevitCommand(
         Description = "MODIFIES the model: loads the given .rfa files into the current document, skipping " +
-                      "any that fail. Paths come from GetLibraryFamilies. Returns { loaded, failed }. Cost: " +
+                      "any that fail. Paths come from analysetool.family-manager.GetLibraryFamilies. Returns { loaded, failed }. Cost: " +
                       "one transaction, and each family is read from disk — this scales with the number and " +
                       "size of the files.",
         Destructive = true,

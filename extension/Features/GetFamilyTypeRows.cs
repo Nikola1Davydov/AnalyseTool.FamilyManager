@@ -13,7 +13,7 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "Lists family types (FamilySymbols) for the given families with category, instance " +
                       "count, the worksets their instances occupy and all type parameters. Read-only. " +
-                      "Family ids come from GetFamilies. Cost: scans those families' types AND their " +
+                      "Family ids come from analysetool.family-manager.GetFamilies. Cost: scans those families' types AND their " +
                       "instances, and every type parameter is included — ask for the families you need " +
                       "rather than all of them.",
         ReadOnly = true,

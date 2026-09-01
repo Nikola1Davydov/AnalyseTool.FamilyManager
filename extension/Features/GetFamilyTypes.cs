@@ -10,7 +10,7 @@ namespace AnalyseTool.FamilyManager
     /// parameters. Backs the Family Control detail panel (the side panel next to the 3D viewer).
     /// </summary>
     [RevitCommand(
-        Description = "Returns the types of one family (by family id from GetFamilies), each with its " +
+        Description = "Returns the types of one family (by family id from analysetool.family-manager.GetFamilies), each with its " +
                       "placed-instance count and its non-empty type parameters. Read-only. Cost: scans the " +
                       "instances of that one family.",
         ReadOnly = true,
@@ -29,7 +29,7 @@ namespace AnalyseTool.FamilyManager
 
         internal sealed class Request
         {
-            [Description("Revit ElementId (long) of the family, as returned by GetFamilies.")]
+            [Description("Revit ElementId (long) of the family, as returned by analysetool.family-manager.GetFamilies.")]
             public long Id { get; set; }
         }
     }

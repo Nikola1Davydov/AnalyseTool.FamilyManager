@@ -13,7 +13,7 @@ namespace AnalyseTool.FamilyManager
     /// </summary>
     [RevitCommand(
         Description = "MODIFIES the model: deletes the given family types, skipping (and counting) any that " +
-                      "can't be removed. Type ids come from GetFamilyTypes. Used by 'purge unused types'. " +
+                      "can't be removed. Type ids come from analysetool.family-manager.GetFamilyTypes. Used by 'purge unused types'. " +
                       "Returns { deleted, failed }. Cost: one transaction over the given types.",
         Destructive = true,
         InputType = typeof(PurgeFamilyTypes.Request),

@@ -14,7 +14,7 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "Returns a triangle mesh (positions[], indices[]) of a family's 3D geometry for a " +
                       "viewer, tessellated from a placed instance. Read-only; { available:false } if the " +
-                      "family has no placed instance. Pass the family id from GetFamilies. Cost: extracts " +
+                      "family has no placed instance. Pass the family id from analysetool.family-manager.GetFamilies. Cost: extracts " +
                       "and tessellates geometry — the slowest read here, so ask for one family at a time.",
         ReadOnly = true,
         InputType = typeof(GetFamilyMesh.Request),
@@ -32,7 +32,7 @@ namespace AnalyseTool.FamilyManager
 
         internal sealed class Request
         {
-            [Description("Revit ElementId (long) of the family, as returned by GetFamilies.")]
+            [Description("Revit ElementId (long) of the family, as returned by analysetool.family-manager.GetFamilies.")]
             public long Id { get; set; }
         }
     }

@@ -13,7 +13,7 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "Lists the placed instances of one or more families (optionally one type) with type, " +
                       "category, level and workset. Read-only. Pass familyId or familyIds, optional typeId " +
-                      "and limit; ids come from GetFamilies and GetFamilyTypes. Cost: scans the instances " +
+                      "and limit; ids come from analysetool.family-manager.GetFamilies and analysetool.family-manager.GetFamilyTypes. Cost: scans the instances " +
                       "of the requested families only.",
         ReadOnly = true,
         InputType = typeof(GetFamilyInstances.Request),
@@ -40,7 +40,7 @@ namespace AnalyseTool.FamilyManager
         public sealed class Request
         {
             /// <summary>Owning family id (single-family case, e.g. Select/Isolate from a card).</summary>
-            [Description("Owning family id — the single-family case. Ids come from GetFamilies.")]
+            [Description("Owning family id — the single-family case. Ids come from analysetool.family-manager.GetFamilies.")]
             public long? FamilyId { get; set; }
 
             /// <summary>Owning family ids (multi-family case, e.g. the Family Types tab over filtered families).</summary>

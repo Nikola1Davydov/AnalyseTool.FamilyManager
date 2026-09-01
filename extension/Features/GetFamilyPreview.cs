@@ -14,8 +14,8 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "Renders a small PNG thumbnail (base64 data URI) from the Revit preview image of a " +
                       "family (its first type) OR a specific type/system type. Read-only. Pass a family id " +
-                      "from GetFamilies or a type (ElementType) id from GetFamilyTypes. Cost: reads a " +
-                      "stored preview image — far cheaper than GetFamilyMesh, which builds geometry.",
+                      "from analysetool.family-manager.GetFamilies or a type (ElementType) id from analysetool.family-manager.GetFamilyTypes. Cost: reads a " +
+                      "stored preview image — far cheaper than analysetool.family-manager.GetFamilyMesh, which builds geometry.",
         ReadOnly = true,
         InputType = typeof(GetFamilyPreview.Request),
         OutputType = typeof(FamilyPreviewResult))]
@@ -68,7 +68,7 @@ namespace AnalyseTool.FamilyManager
 
         internal sealed class Request
         {
-            [Description("Revit ElementId (long) of the family, as returned by GetFamilies.")]
+            [Description("Revit ElementId (long) of the family, as returned by analysetool.family-manager.GetFamilies.")]
             public long Id { get; set; }
 
             [Description("Optional square thumbnail size in pixels (32–512, default 256).")]

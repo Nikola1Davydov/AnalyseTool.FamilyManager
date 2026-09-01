@@ -13,8 +13,8 @@ namespace AnalyseTool.FamilyManager
     [RevitCommand(
         Description = "MODIFIES the model, destructively: deletes families and/or family types (by id) from " +
                       "the active document. Deleting a family deletes every instance of it, so one wrong id " +
-                      "can empty a project and only Ctrl+Z brings it back. Ids come from GetFamilies and " +
-                      "GetFamilyTypes. Used for both Delete and Purge-unused. Cost: one transaction, " +
+                      "can empty a project and only Ctrl+Z brings it back. Ids come from analysetool.family-manager.GetFamilies and " +
+                      "analysetool.family-manager.GetFamilyTypes. Used for both Delete and Purge-unused. Cost: one transaction, " +
                       "proportional to what is removed.",
         Destructive = true,
         InputType = typeof(DeleteFamilyElements.Request),
